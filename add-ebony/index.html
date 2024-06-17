@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>experimentalSuggestedChain for Ebony</title>
+</head>
+<body>
+    <h1>experimentalSuggestedChain for Ebony</h1>
+    <button id="suggest-chain">Suggest Chain</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param) || 'dosiVault';  // Default to 'dosiVault'
+            }
+
+            const extensionName = getQueryParam('ext');
+
+            document.getElementById('suggest-chain').addEventListener('click', async () => {
+                if (!window[extensionName]) {
+                    alert(`Please install ${extensionName} extension`);
+                    return;
+                }
+
+                try {
+                    await window[extensionName].experimentalSuggestChain({
+                        chainId: 'ebony-2',
+                        chainName: 'Ebony',
+                        rpc: 'https://ebony-rpc.finschia.io',
+                        rest: 'https://ebony-api.finschia.io',
+                        bip44: {
+                            coinType: 438,
+                        },
+                        bech32Config: {
+                            bech32PrefixAccAddr: 'tlink',
+                            bech32PrefixAccPub: 'tlinkpub',
+                            bech32PrefixValAddr: 'tlinkvaloper',
+                            bech32PrefixValPub: 'tlinkvaloperpub',
+                            bech32PrefixConsAddr: 'tlinkvalcons',
+                            bech32PrefixConsPub: 'tlinkvalconspub',
+                        },
+                        currencies: [
+                            {
+                                coinDenom: 'TFNSA',
+                                coinMinimalDenom: 'tcony',
+                                coinDecimals: 6,
+                                coinGeckoId: 'link',
+                            },
+                        ],
+                        feeCurrencies: [
+                            {
+                                coinDenom: 'TFNSA',
+                                coinMinimalDenom: 'tcony',
+                                coinDecimals: 6,
+                                coinGeckoId: 'link',
+                                gasPriceStep: {
+                                    low: 0.015,
+                                    average: 0.015,
+                                    high: 0.015,
+                                },
+                            },
+                        ],
+                        stakeCurrency: {
+                            coinDenom: 'TFNSA',
+                            coinMinimalDenom: 'tcony',
+                            coinDecimals: 6,
+                            coinGeckoId: 'link',
+                        },
+                    });
+
+                    alert("Chain successfully suggested!");
+                } catch (error) {
+                    console.error(error);
+                    alert("Failed to suggest the chain: " + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
