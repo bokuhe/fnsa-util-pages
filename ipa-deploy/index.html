@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS IPA Ad-Hoc Distribution</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>iOS IPA Ad-Hoc Distribution</h1>
+    <ul id="file-list">
+    </ul>
+
+    <script>
+        const files = [
+            {
+                name: "dist.ipa",
+                url:  "https://your-domain/ipa-deploy/dist.plist",
+            },
+        ];
+
+        function createFileList() {
+            const fileList = document.getElementById('file-list');
+            files.forEach(file => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `itms-services://?action=download-manifest&url=${file.url}`;
+                link.textContent = file.name;
+                listItem.appendChild(link);
+                fileList.appendChild(listItem);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', createFileList);
+    </script>
+</body>
+</html>
+
